@@ -1,25 +1,22 @@
-name: Ruby
-
+name: Ruby build xxx IR
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
-  test:
-
+  RUBY:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['2.7', '3.3']
-
+    name: Run build
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Run tests
-      run: bundle exec rspec
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.1' # specify your Ruby version
+          
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install  # If you have a Gemfile
+          gem list # This will list all installed gems
